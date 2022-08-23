@@ -1,4 +1,5 @@
 from pprint import pprint
+import os
 
 print('#####################################################1 задание#########################################')
 with open("recipes.txt", encoding="utf-8") as f:
@@ -153,3 +154,35 @@ my_func([ 'Запеченный картофель', 'Омлет'], 2)
 print()
 
 print('#############################################3 задание#########################################')
+
+# Находим нужные файлы в каталоге
+BASE_dir = os.getcwd()
+way = sorted(os.listdir(BASE_dir))
+list_of_files = way[0:3]
+
+# Задаем пустые списки и словарь для обработки
+new_dict = {}
+number_of_symbols = []
+list_content = []
+list_sort = []
+
+# Блок кода считавает содержимое из файлов, вычисляет кол-во символов в файле и выдает словарь в виде NUMBER:{FILE:CONTENT}
+for file in list_of_files:
+    with open(file, encoding="utf-8") as f:
+        content = f.read();
+        list_content.append(content)
+        number = len(content);
+        number_of_symbols.append(number)
+        new_dict[number] = {file: content}
+
+list_sort = sorted(new_dict.items())   # Выполняем сортировку словаря
+
+# Блок работает со списком list_sort, выполняет запись в файл в виде НАЗВАНИЕ ФАЙЛА, КОЛИЧЕСТВО СИМВОЛОВ, СОДЕРЖАНИЕ ФАЙЛА
+with open("write.txt", "w", encoding='utf-8') as file:
+    for element in list_sort:
+        for key in element[1].keys():
+            file.write(str(key)+'\n')
+        file.write(str(element[0])+'\n')
+        for values in element[1].values():
+            file.write(str(values)+'\n')
+        file.write('\n')
